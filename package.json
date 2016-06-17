@@ -1,0 +1,13 @@
+{
+  "name": "Mmyhandlebar",
+  "version": "0.0.1",
+  "description": "Just some description",
+  "private": true,
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+  		"require-dir":"0.3.0",
+  		"gulp" : "3.9.1"
+
+  }
+}
