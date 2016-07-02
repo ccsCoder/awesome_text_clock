@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hello Gulp World</title>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+	<script type="text/javascript" src="js/handlebars.min.js"></script>
+	<script id="address-template" type="text/x-handlebars-template">
+		<!-- <p>
+			You can find me in {{city}}. My Address is {{number}}, {{street}}
+		</p> -->
+		<!-- {{description.escaped}}
+		{{{example}}}
+
+		<br></br>
+		{{description.unescaped}}
+		{{{example}}} -->
+
+		{{#each people}}
+			<p>Name: {{firstName}}, {{lastName}}</p>
+
+		{{/each}}
+
+
+		
+	</script>
+	<script type="text/javascript" src="js/handlebar-data.js"></script>
+</head>
+<body>
+	<h1> Hello World</h1>
+	<div class="address-holder"></div>
+
+</body>
+</html>
