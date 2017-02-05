@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Text Clock</title>
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js" async defer></script>
+	<script type="text/javascript" async defer onload="init()" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 	<style type="text/css">
 		
 		html,body {
@@ -204,13 +204,12 @@
 		})();
 
 		//begin!
-		$(document).ready(function (e) {
-			clock.create();
-			// setTimeout(function() {
+		function init() {
+			$(document).ready(function (e) {
+				clock.create();
 				clock.start();
-			// }, 
-			// 2000);
-		});
+			});
+		}
 	</script>
 
 		
