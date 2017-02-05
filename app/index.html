@@ -1,33 +1,225 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Hello Gulp World</title>
+	<title>Text Clock</title>
 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-	<script type="text/javascript" src="js/handlebars.min.js"></script>
-	<script id="address-template" type="text/x-handlebars-template">
-		<!-- <p>
-			You can find me in {{city}}. My Address is {{number}}, {{street}}
-		</p> -->
-		<!-- {{description.escaped}}
-		{{{example}}}
+	<style type="text/css">
+		
+		html,body {
+			height: 100%;
+			min-height: 100%;
+			width: 100%;
+			margin: 0;
+			padding: 0;
+			font-family: arial;
+			font-size: 16px;
+		}
 
-		<br></br>
-		{{description.unescaped}}
-		{{{example}}} -->
+		body {	
+			background: url(res/images/back.jpg);
+			background-size: cover;
+		}
 
-		{{#each people}}
-			<p>Name: {{firstName}}, {{lastName}}</p>
+		.clock-container {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: auto;
+			width: 50%;
+			max-width: 90%;
+			height: 90%;
+		}
 
-		{{/each}}
+		.clock-text {
+			font-size: 1.8rem;
+			font-weight: 200;
+			text-transform: uppercase;
+			color: darkgrey; 	
+			letter-spacing: 10px;
+		}
+		.clock-text .inactive {
+			opacity: 0.4;
+		}
+		.active {
+			color: white;
+			opacity: 1 !important;
+		}
 
+
+	</style>
+	<script type="text/javascript">
+
+		var clock = (function() {
+			var texts = [
+				['&nbsp;','it', 'l', 'is','a','s','time'],
+				['a','c','quarter','dc'],
+				['twenty','five','x'],
+				['half','b','ten','f','to'],
+				['past','eru','nine'],
+				['one','six','three'],
+				['four','five','two'],
+				['eight','eleven'],
+				['seven','twelve'],
+				['ten','se','o','clock']
+			]; 
+
+			var mappings = {
+				"1":"one",
+				"2":"two",
+				"3":"three",
+				"4":"four",
+				"5":"five",
+				"6":"six",
+				"7":"seven",
+				"8":"eight",
+				"9":"nine",
+				"10":"ten",
+				"11":"eleven",
+				"12":"twelve",
+				"15" :"quarter",
+				"20" :"twenty",
+				"30" :"half"
+			};
+
+			var prev ='';
+
+			function _create() {
+				var html="";
+				var container = $(".clock-text");
+				
+				for(var i=0;i<texts.length;i++) {
+					var line = texts[i];
+					for(var j=0; j<line.length;j++) {
+						var letter = line[j];
+						html+='<span class="inactive" id="id_'+letter+'">'+letter+'</span>';
+					}
+					html+='</br>';
+				}
+
+				container.html(html);
+			};
+
+			function _getTime () {
+				var d= new Date();
+				var hours=Math.abs(12-d.getHours());
+				var mins = d.getMinutes();
+
+				return {
+					"h":hours,
+					"m":mins
+				}
+			};
+
+			function _getString(h, m) {
+				var tStr = "it is ";
+				//m can be any number between 0 and 59.
+				//let's see.+mappings[''+h]
+				var minStr='';
+				if(m>=5 && m<10) {
+					minStr= mappings['5'] +' past';
+				}
+				else if( m>=10 && m<15) {
+					minStr = mappings['10'] +' past';
+				}
+				else if (m>=15 && m<20) {
+					minStr = mappings['15'] +' past';
+				}
+				else if(m>=20 && m <25) {
+					minStr = mappings['20'] +' past';	
+				}
+				else if (m>=25 && m<30) {
+					minStr = mappings['20'] +' '+mappings['5'] +' past';
+				}
+				else if (m>=30 && m<35) {
+					minStr = mappings['30'] +' past';	
+				}
+				else if (m>=35 && m<40) {
+					minStr = mappings['20']+' '+mappings['5'] +' to';
+					h++;
+				}
+				else if (m>=40 && m<45) {
+					minStr = mappings['20'] +' to';
+					h++;	
+				}
+				else if (m>=45 && m<50) {
+					minStr = mappings['15'] +' to';
+					h++;	
+				}
+				else if (m>=50 && m<55) {
+					minStr = mappings['10'] +' to';
+					h++;	
+				}
+				else if (m>=55 && m<=59) {
+					minStr = mappings['5'] +' to';
+					h++;	
+				}
+				else {
+					minStr='';
+				}
+
+				tStr+=minStr+(minStr.length!=0?' ':'')+ mappings[''+h]+' o clock';
+
+				return tStr;
+			};
+
+			function _setTime(str) {
+				$(".clock-text").find('span').removeClass('active');
+				//sample it is five to seven o clock
+				str.split(' ').forEach(function(word) {
+					$(".clock-text").find("#id_"+word).addClass('active');
+				});
+				
+			};
+
+			function _tick() {
+				// console.log("tick tock!");
+				var t=_getTime();
+				var newStr = _getString(t.h, t.m);
+				//don't write to DOM if the time hasn't changed...
+				if(prev!==newStr) {
+					_setTime(newStr);
+					prev=newStr;	
+				}
+				
+
+
+				//**TEST CODE
+				// for(var i=0;i<60;i++) {
+				// 	console.log(_getString(6,i));
+				// }
+				//_getString(tObj.h, tObj.m);
+			};
+
+			function _start() {
+				_tick();
+				setInterval(_tick, 10000);
+			}
+
+			return {
+				"create":_create,
+				"start" :_start
+			}
+
+
+		})();
+
+		//begin!
+		$(document).ready(function (e) {
+			clock.create();
+			// setTimeout(function() {
+				clock.start();
+			// }, 
+			// 2000);
+		});
+	</script>
 
 		
-	</script>
-	<script type="text/javascript" src="js/handlebar-data.js"></script>
+
 </head>
 <body>
-	<h1> Hello World</h1>
-	<div class="address-holder"></div>
+<div class="clock-container">
+	<div class="clock-text">Hello World</div>
+</div>
 
 </body>
 </html>
