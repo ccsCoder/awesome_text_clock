@@ -20,7 +20,7 @@
 			background-size: cover;
 		}
 
-		.clock-container {
+		.clock-container,.footer {
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -43,6 +43,19 @@
 		.active {
 			color: white;
 			opacity: 1 !important;
+		}
+		.footer {
+			/*position: absolute;
+			top: calc(100%-50px);*/
+			/*border-top: 1px solid grey;*/
+			/*padding: 5px;*/
+			height: 30px;
+			width: 80%;
+			font-size: small;
+			color:darkgrey;
+		}
+		.footer > a {
+			color: cyan;
 		}
 
 
@@ -219,6 +232,9 @@
 <div class="clock-container">
 	<div class="clock-text">Hello World</div>
 </div>
+<div class="footer">
+	Inspired by &nbsp; <a href="https://github.com/brndnmtthws/conky" target="_blank">Conky</a>. Made with love by &nbsp;<a href="mailto:ccsCoder@gmail.com>">Nishant Gupta.</a>&nbsp; Fork at : &nbsp; <a href="https://github.com/ccsCoder" target="_blank"><img height="16px" width="16px" src="res/images/git.ico"></a>
+</div> 
 
 </body>
 </html>
