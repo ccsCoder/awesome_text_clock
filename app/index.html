@@ -114,7 +114,7 @@
 
 			function _getTime () {
 				var d= new Date();
-				var hours=Math.abs(12-d.getHours());
+				var hours= d.getHours()>12 ? Math.abs(12-d.getHours()) : d.getHours();
 				var mins = d.getMinutes();
 
 				return {
