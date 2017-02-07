@@ -175,11 +175,18 @@
 				return tStr;
 			};
 
-			function _setTime(str) {
+			function _setTime(str, isEqualNums) {
 				$(".clock-text").find('span').removeClass('active');
 				//sample it is five to seven o clock
 				str.split(' ').forEach(function(word) {
-					$(".clock-text").find("#id_"+word).addClass('active');
+					if(isEqualNums===true) {
+						$('span[id="id_'+word+'"]').addClass('active');
+					}
+					else {
+						$(".clock-text").find("#id_"+word).addClass('active');
+					}
+					
+					
 				});
 				
 			};
@@ -187,10 +194,12 @@
 			function _tick() {
 				// console.log("tick tock!");
 				var t=_getTime();
+				//t.h=5;
+				//t.m=2;
 				var newStr = _getString(t.h, t.m);
 				//don't write to DOM if the time hasn't changed...
 				if(prev!==newStr) {
-					_setTime(newStr);
+					_setTime(newStr, t.h===t.m);
 					prev=newStr;	
 				}
 				
